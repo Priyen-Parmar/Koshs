@@ -1,8 +1,0 @@
-po,vendor,item,units,unit_price,location,receipt,received,support
-PO-A,Apex Office Supply,Desk lamp,10,2000,Bengaluru office,GRN-A,10,
-PO-D,Delta Furniture,Task chair,100,5000,Bengaluru office,,,
-PO-E,Kaveri Logistics,Freight trip,5,6000,East depot,,,kaveri-dispatch.pdf
-PO-W,Kaveri Logistics,Freight trip,5,6000,West depot,,,
-PO-M,Apex Office Supply,Desk lamp,10,2000,Bengaluru office,GRN-M1,10,
-PO-M,Apex Office Supply,USB hub,10,1000,Bengaluru office,GRN-M2,10,
-PO-R,Delta Furniture,Task chair,12,5000,North depot,GRN-R,5,

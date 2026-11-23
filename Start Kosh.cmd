@@ -1,5 +1,5 @@
 @echo off
 cd /d "%~dp0"
-python launch.py
+python scripts\launch.py
 if errorlevel 1 pause
 

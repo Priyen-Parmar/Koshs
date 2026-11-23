@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#fbfaf8">
+<title>Kosh · Accounts payable</title>
+<link rel="icon" href="/assets/brand.svg">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem("kosh-theme2")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch{}</script>
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/visual.css">
+<link rel="stylesheet" href="/assets/desk.css">
+<script type="module" src="/assets/app.js"></script>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="app">
+  <aside id="sidebar" class="side" aria-label="Navigation">
+    <button class="iconbtn navclose" data-act="menu" aria-label="Close navigation">×</button>
+    <a class="brand" href="#/home"><img src="/assets/brand.svg" alt=""><span><b>Kosh</b><small>Nimbus Retail · AP</small></span></a>
+    <nav class="nav" id="nav" aria-label="Primary"></nav>
+    <div class="sidefoot">
+      <div class="ai-note" id="ainote"><span class="dot"></span><span>Checking AI reader…</span></div>
+      <button class="who" id="whobtn" aria-haspopup="menu" aria-expanded="false"></button>
+    </div>
+  </aside>
+  <button class="navshade" data-act="menu" aria-label="Close navigation" tabindex="-1"></button>
+  <div class="main">
+    <header class="top">
+      <button id="menu" class="iconbtn" data-act="menu" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation"></button>
+      <h1 id="title">Home</h1><span class="sub" id="subtitle"></span>
+      <div class="right">
+        <button id="themebtn" class="iconbtn" data-act="theme" aria-label="Change theme"></button>
+        <button class="search" data-act="palette" aria-label="Search and commands"><span id="searchicon"></span><span>Search or run a command</span><kbd>Ctrl K</kbd></button>
+      </div>
+    </header>
+    <main id="content" tabindex="-1"><div class="page"><div class="skel" style="height:140px"></div></div></main>
+  </div>
+</div>
+<div class="menu" id="rolemenu" role="menu"></div>
+<div class="menu" id="moremenu" role="menu"></div>
+<div class="scrim" id="scrim"></div>
+<aside class="sheet" id="sheet" aria-label="Resolve" aria-hidden="true"></aside>
+<dialog id="modal" aria-labelledby="mtitle"><div class="dhead"><h2 id="mtitle"></h2><button class="iconbtn" data-act="close" aria-label="Close" id="mclose"></button></div><div id="mbody"></div></dialog>
+<dialog id="palette" aria-label="Command palette"><div class="palin"><span id="palicon"></span><input id="palq" placeholder="Search invoices, suppliers, or type a command…" autocomplete="off" aria-label="Search"><kbd>Esc</kbd></div><div class="pallist" id="pallist" role="listbox"></div></dialog>
+<div id="toasts" role="status" aria-live="polite"></div>
+<div id="drop" aria-hidden="true"><div><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5 5 5 M4 16v4h16v-4"/></svg><h2>Drop invoices to process</h2><p>PDF · up to 6 MB and 8 pages each</p></div></div>
+<input id="upload" type="file" multiple accept=".pdf,application/pdf" hidden>
+</body>
+</html>

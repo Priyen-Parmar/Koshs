@@ -1,13 +1,13 @@
 data
 .env
 .git
-__pycache__
+**/__pycache__
 .pytest_cache
 *.sqlite*
 
 .test-run-local
-test_*.py
+tests
+scripts
 pytest.ini
-requirements-dev.txt
 demo
 .pytest-tmp

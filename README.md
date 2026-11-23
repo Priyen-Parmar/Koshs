@@ -31,7 +31,7 @@ The three main demo cases work with the local PDF reader. Scanned documents use 
 
 ## Publish the reviewer demo
 
-Push the contents of this directory to the root of a GitHub repository. Connect that repository in the [Render Blueprint dashboard](https://dashboard.render.com/blueprints) and apply `render.yaml`. The Blueprint builds the Docker image with English OCR and uses `/healthz` to check database availability. Open the assigned service URL in a fresh browser session and process A-101 before sharing the link.
+[Deploy Kosh on Render](https://render.com/deploy?repo=https%3A%2F%2Fgithub.com%2FPriyen-Parmar%2FKoshs). Sign in, select the repository and confirm the free service. Render reads `render.yaml`, builds the Docker image with English OCR, and checks `/healthz`. When Render marks the service live, open its assigned URL in a fresh browser session and process A-101 before sharing the link.
 
 GitHub Actions runs the API tests and a Docker smoke test on pushes and pull requests. The free Render configuration stores temporary history. A restart or redeploy can clear it. Each browser gets its own demo workspace. The Blueprint fixes the demo date at 23 November 2026 for the dated examples. Remove `KOSH_DEMO_DATE` for reviews against the current date. To retain history on a host with persistent storage, set `KOSH_DB` to a SQLite path on that storage and remove `KOSH_TEMPORARY_STORAGE`.
 
@@ -104,23 +104,19 @@ The Inbox is a searchable, full-width list of supplier messages. Select a messag
 - **Suppliers** shows vendor evidence and purchase order balances. **Policy** previews proposed changes against open holds. The **Demo kit** includes the case script, invoice builder and workspace reset.
 - Use **Ctrl K** to search, **J/K** to move between records and **U** to upload. The navigation menu is accessible on phones.
 
-## Files
+## Repository layout
 
-| File | Purpose |
+| Directory | Contents |
 |---|---|
-| `app.py` | Web service, streamed runs, workspaces, ledger transactions |
-| `reader.py`, `windows_ocr.ps1` | Text layer and OCR with page positions for every value |
-| `vision.py` | AI reader (Claude, Gemini or Ollama) and the "must be on the page" verifier |
-| `engine.py`, `policy.py` | Deterministic policy checks, dates, amounts, vendor matching |
-| `service.py` | Settings, versioned policy, reviewer actions, decision-record PDF |
-| `comms.py` | Plain-English explanations and drafted messages, written from rule results only |
-| `lab.py`, `make_samples.py` | Invoice lab and the reproducible sample PDFs |
-| `vendors.csv`, `orders.csv`, `ledger_seed.csv` | Vendor master, POs with lines and GRNs, opening billings |
-| `ui/` | Browser app: `app.js` shell and router, `inbox.js`, `invoices.js`, `review.js` processing, `pages.js`, `shared.js`, `style.css` |
-| `mailbox.json` | The simulated AP mailbox: vendor emails and their attachments |
-| `test_kosh.py`, `test_audit.py` | API and reader regression tests using real PDF bytes |
+| [backend/](backend/) | FastAPI routes, document readers, policy checks, audit trail and PDF generation |
+| [ui/](ui/) | Browser screens, styles and artwork |
+| [fixtures/](fixtures/) | Fictional supplier register, purchase orders, opening balances, mailbox and sample catalog |
+| [samples/](samples/) | Invoice PDFs and supporting records used in the demo |
+| [tests/](tests/) | API and reader tests and their development dependencies |
+| [scripts/](scripts/) | Windows local-launch helper |
+| [demo/](demo/) | Recorded walkthrough |
 
-Run the tests with `python -m pip install -r requirements-dev.txt` and then `python -m pytest`.
+Run `python -m pip install -r requirements.txt -r tests/requirements.txt` followed by `python -m pytest`. The local launcher and Docker both use the root `app.py`. Render reads `render.yaml` from the repository root.
 
 ## Limits worth saying out loud
 

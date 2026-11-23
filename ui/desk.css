@@ -1,0 +1,110 @@
+/* The work surface shares its ink, paper and status colours across every route. */
+:root {
+  --font:"Segoe UI",system-ui,sans-serif;
+  --bg:#f6f8f6; --side:#fcfdfb; --panel:#fff; --hover:#f0f4f2; --sunken:#edf1ef;
+  --text:#172824; --text-2:#465b54; --text-3:#596d65;
+  --line:#dce4df; --line-2:#b9c8bf;
+  --brand:#155a49; --brand-hover:#104737; --brand-ink:white; --brand-soft:#e5f2ea; --brand-line:#b6d8c6;
+  --ring:0 0 0 3px #458caa80; --side-w:204px;
+}
+:root[data-theme="dark"] {
+  --bg:#121a1b; --side:#172022; --panel:#1c2829; --hover:#273537; --sunken:#151f21;
+  --text:#edf3ec; --text-2:#bdcdc7; --text-3:#a0b5ad; --line:#334444; --line-2:#526863;
+  --brand:#94ddbb; --brand-hover:#b6ecd0; --brand-ink:#103b2e; --brand-soft:#244037; --brand-line:#406b58;
+  --ring:0 0 0 3px #8dcab699;
+}
+.brand {gap:11px;padding:12px 10px 25px}
+.brand b {font:600 28px/1 Georgia,serif;letter-spacing:-1.5px}
+.brand small {margin-top:4px}
+.brand img {width:36px;height:36px}
+.side {padding:17px 12px}
+.nav {gap:3px}
+.navitem {height:40px;border-radius:7px;padding:0 12px}
+.navitem.on {background:var(--brand-soft);color:var(--brand);border-color:transparent;box-shadow:none;font-weight:650}
+.top {background:var(--panel);height:60px}
+.top .sub {display:none}
+.btn,.btn.lg {min-height:36px;border-radius:7px}
+.hero {padding:28px 32px;border-radius:14px;background:var(--panel)}
+.hero::before {display:none}
+.hero-in {grid-template-columns:1fr minmax(140px,32%);gap:12px}
+.hero h1,.deskhead h2,.pagehead h2 {font:500 clamp(32px,4vw,51px)/1.08 Georgia,serif;letter-spacing:-.045em}
+.hero-copy p {margin:8px 0 16px}
+.heroart img {width:min(100%,300px)}
+.dz-ic {color:var(--brand-ink)}
+.dropzone {border-width:1px;border-radius:8px;margin-top:18px}
+.page,.maildesk,.invoiceindex {width:100%;max-width:1380px;margin:0 auto;padding:clamp(18px,3.3vw,50px)}
+.deskhead {display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin:4px 0 26px}
+.deskhead p {color:var(--text-2);margin-top:8px;font-size:15px}
+.deskaddress {display:inline-flex;align-items:center;gap:8px;color:var(--brand);font-size:13px;font-weight:600;margin-bottom:12px}
+.deskbuttons,.mailfilters,.mailvendor,.mailtopic small,.mailsearch,.registerfoot {display:flex;align-items:center}
+.deskbuttons {gap:8px;flex-wrap:wrap}
+.mailregister,.invoiceindex .listpane {background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.mailtools {display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px}
+.mailfilters {gap:4px}
+.mailfilters button {background:transparent;color:var(--text-2);border:0;border-radius:6px;min-height:36px;padding:4px 10px;cursor:pointer;font-weight:600}
+.mailfilters button[aria-pressed=true] {background:var(--brand-soft);color:var(--brand)}
+.mailfilters span {margin-left:3px;font-size:12px;font-variant-numeric:tabular-nums}
+.mailsearch {gap:7px;border:1px solid var(--line);border-radius:7px;padding:7px 10px;color:var(--text-2)}
+.mailsearch input {border:none;background:transparent;max-width:180px;width:100%;outline:none;color:var(--text)}
+.mailsearch:focus-within {box-shadow:var(--ring)}
+.mailcolumns,.mailrow {display:grid;grid-template-columns:minmax(150px,1fr) minmax(215px,1.6fr) 108px 65px;gap:16px;align-items:center;padding:0 20px}
+.mailcolumns {background:var(--sunken);min-height:36px;color:var(--text-2);font-size:12px;font-weight:600}
+.mailrow {border-top:1px solid var(--line);min-height:75px;color:var(--text)}
+.mailrow:hover,.mailrow:focus-visible {background:var(--hover)}
+.mailvendor {gap:11px}
+.mailvendor>span,.mailtopic,.mailvendor {min-width:0}
+.mailrow b,.mailrow small {display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.mailrow b {font-size:14px;font-weight:600}
+.mailrow small {font-size:12px;color:var(--text-2);margin-top:3px}
+.mailtopic small {display:flex;gap:5px}
+.mailtime,.mailcolumns>:last-child {text-align:right;font-variant-numeric:tabular-nums}
+.mailtime {color:var(--text-2);font-size:13px}
+.unprocessed {display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:12px;color:var(--brand)}
+.unprocessed::before {content:"";background:currentColor;width:6px;height:6px;border-radius:50%}
+.registerfoot {justify-content:space-between;gap:12px;padding:10px 20px;color:var(--text-3);font-size:12px;border-top:1px solid var(--line)}
+.messagepage,.focusdetail {padding:24px clamp(14px,3vw,48px) 50px}
+.messagepage .detailin,.focusdetail .detailin {width:100%;max-width:1040px!important;margin:auto;padding:22px clamp(16px,3vw,44px) 34px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.dtop .back {display:inline-flex}
+.messagepage h2,.ihead h2 {font:500 clamp(26px,3vw,40px)/1.12 Georgia,serif;letter-spacing:-.04em}
+.messagepage .mailbody {font-size:16px;line-height:1.65;max-width:68ch;margin:28px 0}
+.invoiceindex .listpane {min-height:auto}
+.invoiceindex .item {padding:15px 20px}
+.invoiceindex .l1 {gap:12px}
+.invoiceindex .listtools {display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.invoiceindex .listtools .searchwrap {min-width:210px;margin:0}
+.focusdetail .evidence {grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.card {box-shadow:none}
+.top .right .iconbtn {border:1px solid var(--line);color:var(--brand);background:var(--panel)}
+.hero .eyebrow {color:var(--text-2)}
+.logo {color:var(--mark-fg);background:var(--mark-bg);border-color:color-mix(in srgb,var(--mark-fg) 18%,transparent)}
+:root[data-theme="dark"] .logo {color:color-mix(in srgb,var(--mark-fg) 32%,white);background:color-mix(in srgb,var(--mark-fg) 25%,var(--panel));border-color:color-mix(in srgb,var(--mark-fg) 35%,var(--line))}
+.navshade,.navclose {display:none}
+.step.next .no {color:var(--brand-ink)}
+@media(max-width:900px){
+  .navopen .navshade {display:block;position:fixed;inset:0;background:#0a171766;border:0;z-index:29}
+  .navopen .navclose {display:inline-grid;position:absolute;top:12px;right:8px;min-width:36px;min-height:36px;font-size:23px}
+}
+@media(min-width:901px){.maildesk,.invoiceindex {padding-top:40px}}
+@media(max-width:1000px){.mailcolumns,.mailrow {grid-template-columns:minmax(140px,1fr) minmax(165px,1.4fr) 80px 52px;gap:10px;padding-inline:14px}}
+@media(max-width:740px){
+  .deskhead {align-items:flex-start;flex-direction:column}
+  .mailtools {align-items:stretch;flex-direction:column;padding:12px}
+  .mailsearch input {max-width:none}
+  .mailfilters {justify-content:space-between}
+  .mailcolumns {display:none}
+  .mailrow {position:relative;display:grid;grid-template-columns:1fr auto;gap:8px;padding:14px}
+  .mailvendor {grid-column:1;grid-row:1}.mailvendor .logo {width:28px!important;height:28px!important}
+  .mailvendor small {display:none}
+  .mailtopic {grid-row:2;grid-column:1/-1}.mailtopic b {white-space:normal}
+  .mailstate {grid-row:1;grid-column:2}
+  .mailtime {grid-area:auto;position:absolute;right:14px;bottom:14px}
+  .mailtopic small {padding-right:46px}
+  .focusdetail .evidence {grid-template-columns:1fr}
+  .messagepage .sender {flex-wrap:wrap}
+  .messagepage .sender .mono {overflow-wrap:anywhere}
+  .hero {padding:18px}.hero-in {grid-template-columns:1fr}.heroart {display:none}
+  .page,.maildesk,.invoiceindex {padding:18px 12px}
+  .messagepage,.focusdetail {padding:12px 8px 40px}
+  .invoiceindex .listtools {align-items:stretch;flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.float,.float-slow,.chip-a,.chip-b,.chip-c,.scan,.pop{animation:none}}
