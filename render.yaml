@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: kosh-invoice-desk
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /healthz
+    envVars:
+      - key: KOSH_DB
+        value: /tmp/kosh/kosh.sqlite
+      - key: KOSH_TEMPORARY_STORAGE
+        value: "1"
+      - key: KOSH_DEMO_DATE
+        value: "2026-11-23"
