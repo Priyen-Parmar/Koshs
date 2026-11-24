@@ -12,3 +12,9 @@ services:
         value: "1"
       - key: KOSH_DEMO_DATE
         value: "2026-11-23"
+      # Gemini AI reader. The key is a secret: enter its value once in the Render dashboard (Environment).
+      # sync: false makes Render keep that dashboard value on every Blueprint sync instead of deleting it.
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: KOSH_GEMINI_MODEL
+        value: gemini-3.8-flash
