@@ -441,7 +441,7 @@ async def review(request: Request):
                     extraction=enrich(data,extraction,ai)
                     kept=sum(1 for x in extraction.get("ai_review",[]) if x["verified"])
                     push(stage,"failed" if extraction.get("ai_error") else "done",
-                         "Reader unavailable; continuing with printed labels" if extraction.get("ai_error") else
+                         ("Reader unavailable" + (f" ({extraction['ai_error_detail']})" if extraction.get("ai_error_detail") else "") + "; continuing with printed labels") if extraction.get("ai_error") else
                          f"{kept} of {len(extraction.get('ai_review',[]))} proposed values verified on the page",elapsed(timeline,stage))
                 else:push(stage,"skipped","Printed labels covered every field" if not needed(extraction) else "No AI reader configured; missing fields will hold")
                 if sender:extraction["sender"]=sender

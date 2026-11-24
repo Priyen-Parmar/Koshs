@@ -8,11 +8,12 @@ The rules engine evaluates the extracted values.
 """
 
 import json
+import logging
 import os
 import re
 from base64 import b64encode
 from time import monotonic
-from urllib.error import URLError
+from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 import pymupdf
@@ -118,27 +119,49 @@ def ask_claude(data):
     return block["input"]
 
 
-def ask_gemini(data, model):
-    """Keep the key on the server. Send the same document and extraction schema as other readers."""
-    payload = {
-        "contents": [{"parts": [
-            {"inlineData": {"mimeType": "application/pdf", "data": b64encode(data).decode()}},
-            {"text": PROMPT}
-        ]}],
-        "generationConfig": {"temperature": 0, "responseMimeType": "application/json", "responseJsonSchema": SCHEMA},
-    }
+def _gemini_call(model, payload):
     req = Request(
         f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
         data=json.dumps(payload).encode(),
         headers={"Content-Type": "application/json", "x-goog-api-key": os.environ["GEMINI_API_KEY"]},
     )
-    with urlopen(req, timeout=90) as response:
-        body = json.load(response)
+    try:
+        with urlopen(req, timeout=90) as response:
+            return json.load(response)
+    except HTTPError as exc:
+        # Surface Google's own reason (model not found, key not allowed, schema rejected). The key is in a header, never in this text.
+        try:
+            reason = json.loads(exc.read().decode("utf-8", "replace")).get("error", {}).get("message", "")
+        except (ValueError, OSError):
+            reason = ""
+        raise ValueError(f"Gemini HTTP {exc.code}: {reason or exc.reason}"[:300]) from None
+
+
+def ask_gemini(data, model):
+    """Keep the key on the server. Send the same document and extraction schema as other readers."""
+    payload = {
+        "contents": [{"parts": [
+            {"inlineData": {"mimeType": "application/pdf", "data": b64encode(data).decode()}},
+            {"text": PROMPT + "\nReturn a JSON object with exactly these keys: " + ", ".join([*KEYS, "lines", "line_count", "instructions", "uncertain"]) + "."}
+        ]}],
+        "generationConfig": {"temperature": 0, "responseMimeType": "application/json", "responseJsonSchema": SCHEMA},
+    }
+    try:
+        body = _gemini_call(model, payload)
+    except ValueError as exc:
+        # Some models reject a strict JSON schema. Retry once with plain JSON output; verify() still checks every value.
+        if not str(exc).startswith("Gemini HTTP 400"):
+            raise
+        logging.warning("Gemini rejected the response schema, retrying with plain JSON: %s", exc)
+        payload["generationConfig"].pop("responseJsonSchema", None)
+        body = _gemini_call(model, payload)
     for candidate in body.get("candidates", []):
         if candidate.get("finishReason") != "STOP":
             continue
         parts = candidate.get("content", {}).get("parts", [])
-        parsed = json.loads("".join(p.get("text", "") for p in parts if not p.get("thought")))
+        text = "".join(p.get("text", "") for p in parts if not p.get("thought")).strip()
+        text = re.sub(r"^```(?:json)?\s*|\s*```$", "", text)
+        parsed = json.loads(text)
         if isinstance(parsed, dict):
             return parsed
     raise ValueError("Gemini returned no complete invoice reading")
@@ -176,6 +199,8 @@ def enrich(data, extracted, chosen=None):
         extracted.setdefault("warnings", []).append(
             "The AI reader could not complete the reading. Request a labelled, legible copy.")
         extracted["ai_error"] = type(exc).__name__
+        extracted["ai_error_detail"] = str(exc)[:240]
+        logging.warning("AI reader %s failed: %s", chosen["label"], str(exc)[:240])
         return extracted
     extracted["ai_raw"] = {k: ("•••• " + v[-4:] if k == "bank" and isinstance(v, str) and v else v) for k, v in answers.items()}
     return verify(extracted, answers, chosen["label"])

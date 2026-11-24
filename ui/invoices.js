@@ -63,6 +63,8 @@ export async function loadDetail(arg) {
     pane.innerHTML = processingPane(item); return;
   }
   const r = await (await api("/api/runs/" + arg)).json();
+  // A just-uploaded copy of an already-processed file keeps its "returned the original decision" notice.
+  if (Object.values(state.ui.lastItems || {}).some(q => q.result?.id === r.id && q.result?.existing)) r.existing = true;
   if (!pane.isConnected) return;
   state.ui.cur = r;
   pane.innerHTML = detailHTML(r);
